@@ -2,20 +2,19 @@
 
 Timekill is an app for your phone that suggests healthy ways for you to waste your time.
 
-Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more than the optimal number of hours on social media, YouTube, Netflix, etc.
+Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more time than we should on social media, YouTube, Netflix, and mobile games. What if we could wire our brains to compulsively open an app that suggested [healthy alternatives](#healthy-timekill) instead?
 
-What if there was an app that suggested [healthy alternatives](#healthy-timekill) we could wire our brains to compulsively open instead?
-
-What I suggest is a typical infinite-scrolling type feed, the one that we're used to from our bad habits (that apparently works well for addicting our brains), that serves cards with *healthy* and *productive* content.
+What I suggest is a infinite-scrolling feed that serves cards with *healthy* and *productive* content. The infinite-scrolling feed is a powerful thing that feeds on our brains' desire for novelty, can we tame it?
 
 
 ## Healthy timekill
 
 Here's a list of healthy ways to kill time:
 
- - Finishing a task on your TODO list
- - Using learning apps like Brilliant/Khan Academy/Coursera/EdX/Duolingo
- - Getting the top recommended healthy/useful content across feeds (see my wiki on [The Importance of Open Recommender Systems](https://erik.bjareholt.com/wiki/importance-of-open-recommendation-systems/))
+ - Work on a task on your TODO list
+ - Use learning apps like Brilliant/Khan Academy/Coursera/EdX/Duolingo
+ - Get only the most useful/recommended content across feeds (see my wiki on [The Importance of Open Recommender Systems](https://erik.bjareholt.com/wiki/importance-of-open-recommendation-systems/))
+   - Can this actually decrease FOMO meaningfully?
  - Show a card with the number of productive hours today
    - You could do the same for unproductive hours, but I'm not sure that would be very helpful as it basically just shames the user (which could lead to counterproductive results)
  - Staying in touch with friends we haven't talked to in a while (as some personal relationship management systems aim to help the user do)
@@ -24,8 +23,7 @@ Here's a list of healthy ways to kill time:
 ## Ideas
 
  - Integrate with ActivityWatch to track how many productive hours timekill helped initiate.
- - Add rewards for 
- -
+ - Add rewards for productive time (this might be a bad idea, would make the motivation extrinsic)
 
 
 ## Timeline
