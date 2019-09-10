@@ -13,18 +13,21 @@ Here's a list of healthy ways to kill time:
 
  - Work on a task on your TODO list
  - Use learning apps like Brilliant/Khan Academy/Coursera/EdX/Duolingo
+ - Work out at home or go to the gym
  - Get only the most useful/recommended content across feeds (see my wiki on [The Importance of Open Recommender Systems](https://erik.bjareholt.com/wiki/importance-of-open-recommendation-systems/))
    - Can this actually decrease FOMO meaningfully?
- - Show a card with the number of productive hours today
-   - You could do the same for unproductive hours, but I'm not sure that would be very helpful as it basically just shames the user (which could lead to counterproductive results)
  - Staying in touch with friends we haven't talked to in a while (as some personal relationship management systems aim to help the user do)
+
+The important thing for things to make a list like this is that it's something the user could *sometimes* actually be willing to do. Different times/moods/places call for different timekill.
 
 
 ## Ideas
 
- - Integrate with ActivityWatch to track how many productive hours timekill helped initiate.
+ - Integrate with ActivityWatch
+   - Track how many productive hours timekill helped initiate.
+   - Show a card with the number of productive hours today
+     - You could do the same for unproductive hours, but I'm not sure that would be very helpful as it basically just shames the user (which could lead to counterproductive results)
  - Add rewards for productive time (this might be a bad idea, would make the motivation extrinsic)
-
 
 ## Timeline
 
