@@ -1,6 +1,6 @@
 # timekill
 
-Timekill is an app for your phone that suggests healthy ways for you to waste your time.
+An app for your phone that suggests (gets you addicted to) healthy ways for you to (not) waste your time.
 
 Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more time than we should on social media, YouTube, Netflix, and mobile games. What if we could wire our brains to compulsively open an app that suggested [healthy alternatives](#healthy-timekill) instead?
 
