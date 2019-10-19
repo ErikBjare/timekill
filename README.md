@@ -28,6 +28,7 @@ The important thing for things to make a list like this is that it's something t
    - Show a card with the number of productive hours today
      - You could do the same for unproductive hours, but I'm not sure that would be very helpful as it basically just shames the user (which could lead to counterproductive results)
  - Add rewards for productive time (this might be a bad idea, would make the motivation extrinsic)
+ - Distraction-distracting notifications: Try to distract the user from undesirable activities (social media, games, etc.) by sending notifications that suggest healthier alternatives
 
 ## Timeline
 
