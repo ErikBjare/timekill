@@ -1,10 +1,22 @@
 # timekill
 
+A better way to kill time.
+
+Features:
+
+ - A recommender system for content that you control.
+   - Includes GPT-3 based content classification/recommendation.
+   - Can currently fetch content from: reddit
+
+---
+
+**Note:** the text below was written a long time ago, and does not represent the current state of the project.
+
 An app for your phone that suggests (gets you addicted to) healthy ways for you to (not) waste your time.
 
 Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more time than we should on social media, YouTube, Netflix, and mobile games. What if we could wire our brains to compulsively open an app that suggested [healthy alternatives](#healthy-timekill) instead?
 
-What I suggest is a infinite-scrolling feed that serves cards with *healthy* and *productive* content. The infinite-scrolling feed is a powerful thing that feeds on our brains' desire for novelty, can we tame it?
+What I suggest is a (almost) infinite-scrolling feed that serves cards with *healthy* and *productive* content. The infinite-scrolling feed is a powerful thing that feeds on our brains' desire for novelty, can we tame it?
 
 
 ## Healthy timekill

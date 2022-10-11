@@ -1,0 +1,11 @@
+.*cache
+secret.env
+cache
+
+# Python stuff
+__pycache__
+*.pyc
+.venv
+
+# Data
+feeds
