@@ -30,6 +30,10 @@ jobs:
         poetry install
 
     - name: Run tests
+      env:
+        REDDIT_CLIENT_ID: ${{ secrets.REDDIT_CLIENT_ID }}
+        REDDIT_SECRET: ${{ secrets.REDDIT_SECRET }}
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       run: |
         make test
         bash <(curl -s https://codecov.io/bash)
