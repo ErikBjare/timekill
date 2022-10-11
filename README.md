@@ -1,12 +1,25 @@
-# timekill
+timekill
+========
 
 A better way to kill time.
 
+**Note:** This project is a work-in-progress.
+
 Features:
 
- - A recommender system for content that you control.
-   - Includes GPT-3 based content classification/recommendation.
-   - Can currently fetch content from: reddit
+ - An activity-suggester/day-planner
+   - When configured with activities and the conditions for recommending them, can help you sort out what to do with your days.
+ - A recommender system for content *that you control*.
+   - Includes WIP content classification/recommendation based on GPT-3.
+
+Content sources for recommender system:
+
+ - Reddit
+   - TODO: by subreddit
+   - TODO: by search
+ - TODO: Twitter
+ - TODO: Hacker News
+ - TODO: Custom entries. Like suggestions to work out, take a walk, etc.
 
 ---
 

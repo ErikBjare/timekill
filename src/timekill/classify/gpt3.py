@@ -1,4 +1,5 @@
 import os
+import logging
 from dataclasses import dataclass
 
 import joblib
@@ -7,6 +8,7 @@ from ..models import Content, Classification
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
+logger = logging.getLogger(__name__)
 memory = joblib.Memory("cache", verbose=0)
 
 
@@ -81,7 +83,7 @@ def classify(
 ) -> Classification:
     if cache:
         if classification := _cache.get(content.url):
-            print("Cache hit for:", content.url)
+            logger.debug("Cache hit for:", content.url)
             return classification
 
     import openai

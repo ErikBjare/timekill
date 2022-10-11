@@ -1,6 +1,7 @@
 .*cache
 secret.env
 cache
+.DS_Store
 
 # Python stuff
 __pycache__
@@ -9,3 +10,8 @@ __pycache__
 
 # Data
 feeds
+
+# built in Makefile
+build
+dist
+media/icon.icns
