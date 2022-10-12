@@ -97,7 +97,7 @@ def print_plan(context: Context, plan: list[tuple[time, Activity]]):
     for t, activity in plan:
         context.timestamp = datetime.combine(context.timestamp, t)
         print(
-            f"{t.hour}:{t.minute:2} | {activity.title}"
+            f"{t.hour}:{str(t.minute).zfill(2)} | {activity.title}"
             + (
                 f" ({timedelta(seconds=activity.duration)})"
                 if activity.duration
