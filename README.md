@@ -1,6 +1,10 @@
 timekill
 ========
 
+[![Build](https://github.com/ErikBjare/timekill/actions/workflows/build.yml/badge.svg)](https://github.com/ErikBjare/timekill/actions/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Typechecking: Mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+
 A better way to kill time.
 
 An app that suggests healthy ways for you to (not) waste your time.
