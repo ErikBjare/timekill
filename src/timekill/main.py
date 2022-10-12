@@ -5,13 +5,11 @@ from datetime import datetime, time, timedelta
 from time import sleep
 
 import click
-import fastapi
-import uvicorn
 
 from .classify import classify_gpt3
 from .load import load_all
-from .models import Content
 from .notify import notify
+from .server import server
 from .suggest import (
     Activity,
     Context,
@@ -20,20 +18,14 @@ from .suggest import (
     suggest_activities,
 )
 
-app = fastapi.FastAPI()
-
 
 @click.group()
 def main():
     pass
 
 
-@main.command("start")
-def start_():
-    """
-    Entrypoint for the timekill server
-    """
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+# Subgroups
+main.add_command(server)
 
 
 @main.command("list")
@@ -116,16 +108,6 @@ def plan(until: time):
 
     activities = plan_day(context, stop=until or time(23, 59))
     print_plan(context, activities)
-
-
-@app.get("/classify")
-def classify(contents: list[Content]):
-    """
-    Classify endpoint. Takes a list of content items and returns a list of classifications.
-
-    Uses GPT-3 using the OpenAI API.
-    """
-    return [classify_gpt3(content) for content in contents]
 
 
 if __name__ == "__main__":
