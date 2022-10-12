@@ -20,7 +20,13 @@ feeds_dir = Path(__file__).parent.parent.parent / "data" / "feeds"
 def load_reddit(subreddit: str, limit=100, t="week"):
     feedfile = feeds_dir / "reddit" / subreddit / "top.json"
 
-    if os.environ.get("REDDIT_CLIENT_ID"):
+    client_id = os.environ.get("REDDIT_CLIENT_ID")
+    client_secret = os.environ.get("REDDIT_CLIENT_SECRET")
+    if client_id or client_secret:
+        if not (client_id and client_secret):
+            raise Exception(
+                "Must set either both or neither of env vars REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET"
+            )
         print("Loading from praw")
         return load_reddit_praw(subreddit, limit, t)
     if feedfile.exists():
