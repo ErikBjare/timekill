@@ -1,8 +1,28 @@
+SRCDIR = src/timekill
+SOURCES = $(shell find $(SRCDIR) -type f -name '*.py')
+# all sources without any __init__.py files
+SOURCES_WITHOUT_INIT = $(filter-out %/__init__.py,$(SOURCES))
+
+precommit: lint-fix typecheck test lint
+
 typecheck:
-	poetry run mypy src/timekill --ignore-missing-imports
+	poetry run mypy $(SRCDIR) --ignore-missing-imports
 
 test:
 	poetry run pytest
+
+lint:
+	poetry run pylint $(SRCDIR)
+	poetry run flake8 $(SRCDIR)
+	poetry run bandit -c pyproject.toml -r $(SRCDIR)
+
+lint-fix:
+	poetry run autoflake -r $(SRCDIR) --in-place --imports . --remove-unused-variables --ignore-init-module-imports
+	poetry run autoimport $(SOURCES_WITHOUT_INIT)
+	poetry run reorder-python-imports $(SOURCES) --py310-plus || true
+	poetry run isort $(SRCDIR)
+	poetry run pyupgrade --py310-plus $(SOURCES)
+	poetry run black $(SRCDIR)
 
 SUBREDDITS := python quantifiedself coolgithubprojects rust programming linux
 
@@ -42,8 +62,6 @@ dist/TimeKill.app: media/icon.icns
 	poetry run pyinstaller --name=TimeKill --onefile --windowed \
 		--icon=media/icon.icns --add-data=media:media \
 		src/timekill/__main__.py
-
-precommit: test typecheck
 
 clean:
 	rm -rf data/feeds

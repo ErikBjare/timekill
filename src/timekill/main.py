@@ -1,18 +1,24 @@
 """
 Timekill: the better way to kill time.
 """
-
-import os
-from datetime import datetime, timedelta
-from dataclasses import dataclass
+from datetime import datetime, time, timedelta
+from time import sleep
 
 import click
 import fastapi
+import uvicorn
 
-from .models import Content
 from .classify import classify_gpt3
 from .load import load_all
-
+from .models import Content
+from .notify import notify
+from .suggest import (
+    Activity,
+    Context,
+    plan_day,
+    print_plan,
+    suggest_activities,
+)
 
 app = fastapi.FastAPI()
 
@@ -22,13 +28,11 @@ def main():
     pass
 
 
-@main.command()
-def start():
+@main.command("start")
+def start_():
     """
     Entrypoint for the timekill server
     """
-    import uvicorn
-
     uvicorn.run(app, host="127.0.0.1", port=8000)
 
 
@@ -37,6 +41,7 @@ def list_():
     """
     List content with recommendations.
     """
+    # TODO: figure out a way to score content such that it can be ranked
     for content in load_all():
         classification = classify_gpt3(content)
         print(classification.pretty())
@@ -46,14 +51,14 @@ def sleep_progress(seconds: int, label="Sleeping"):
     """
     Sleep with a progress bar.
     """
-    import time
 
     with click.progressbar(range(seconds), label=label) as bar:
         for _ in bar:
             try:
-                time.sleep(1)
+                sleep(1)
             except KeyboardInterrupt:
-                break
+                return False
+    return True
 
 
 @main.command()
@@ -61,18 +66,20 @@ def suggest():
     """
     Suggest activities to do.
     """
-    from .suggest import suggest_activities, Context
-    from .notify import notify
 
     context = Context.prompt()
-    activities = suggest_activities(context)
-    while len(activities) > 0:
-        activity = activities.pop(0)
+    skipped: list[Activity] = []
+    while True:
+        activities = suggest_activities(context, skip=skipped)
+        if len(activities) == 0:
+            break
+        activity = activities[0]
         print("\n" + activity.pretty())
         if not click.confirm("> Do you want to do this?"):
+            skipped.append(activity)
             print("Alright, let's try something else.")
             continue
-        activity.do()
+        activity.do(context)
         if activity.duration:
             finished = sleep_progress(activity.duration, label=activity.title)
             if finished:
@@ -90,7 +97,25 @@ def suggest():
         )
 
     if len(activities) == 0:
-        print("Ran out of suggestions. Try again later.")
+        print("\nRan out of suggestions. Try again later.")
+
+
+@main.command()
+@click.option("--until", type=lambda s: time(*map(int, s.split(":"))))  # type: ignore
+def plan(until: time):
+    """
+    Plan a day of activity.
+    """
+
+    context = Context.prompt()
+
+    # set time for context, round start to 5-min interval
+    start = datetime.now()
+    start = start.replace(minute=start.minute // 5 * 5, second=0, microsecond=0)
+    context.timestamp = start
+
+    activities = plan_day(context, stop=until or time(23, 59))
+    print_plan(context, activities)
 
 
 @app.get("/classify")

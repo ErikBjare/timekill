@@ -1,14 +1,15 @@
 import pytest
 
-from timekill.load import load_reddit
 from timekill.classify import classify_gpt3
-from timekill.classify.example_content import example_content, content_aw
+from timekill.classify.example_content import content_aw, example_content
+from timekill.load import load_reddit
 
 
 @pytest.mark.openai
 def test_classify():
     """Test the classify function."""
     classification = classify_gpt3(content_aw, example_content[1:])
+    assert classification
 
 
 @pytest.mark.openai

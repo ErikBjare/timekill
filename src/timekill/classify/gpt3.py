@@ -1,10 +1,11 @@
-import os
 import logging
-from dataclasses import dataclass
+import os
+import pickle  # nosec
 
 import joblib
+import openai
 
-from ..models import Content, Classification
+from ..models import Classification, Content
 
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
@@ -41,14 +42,11 @@ def _gen_content_prompt(content: Content) -> str:
     return f"""---\nClassify this content:\n\n{content.to_text()}"""
 
 
-def _gen_content_reply(content: Content, rec: bool, why: str) -> str:
+def _gen_content_reply(rec: bool, why: str) -> str:
     """
     Generate a (mock) reply/classification for a piece of content.
     """
     return f"""Recommended? {'Yes' if rec else 'No'}\nWhy? {why}"""
-
-
-import pickle
 
 
 class Cache:
@@ -59,7 +57,7 @@ class Cache:
         self.path = "cache/classify_cache.pkl"
         if os.path.exists(self.path):
             with open(self.path, "rb") as f:
-                self.cache = pickle.load(f)
+                self.cache = pickle.load(f)  # nosec
 
     def get(self, url: str) -> Classification | None:
         return self.cache.get(url, None)
@@ -78,15 +76,13 @@ _cache = Cache()
 
 def classify(
     content: Content,
-    examples: list[tuple[Content, bool, str]] = [],
+    examples: list[tuple[Content, bool, str]] = None,
     cache=True,
 ) -> Classification:
     if cache:
         if classification := _cache.get(content.url):
-            logger.debug("Cache hit for:", content.url)
+            logger.debug(f"Cache hit for: {content.url}")
             return classification
-
-    import openai
 
     openai.api_key = OPENAI_API_KEY
 
@@ -96,10 +92,11 @@ def classify(
     prompt += f"I dislike: {', '.join(disinterests)}.\n"
     prompt += f"I am currently: {context}.\n\n"
 
-    for ex_content, ex_rec, ex_reason in examples:
-        prompt += _gen_content_prompt(ex_content) + "\n\n"
-        prompt += _gen_content_reply(ex_content, ex_rec, ex_reason).strip()
-        prompt += "\n\n"
+    if examples:
+        for ex_content, ex_rec, ex_reason in examples:
+            prompt += _gen_content_prompt(ex_content) + "\n\n"
+            prompt += _gen_content_reply(ex_rec, ex_reason).strip()
+            prompt += "\n\n"
 
     prompt += _gen_content_prompt(content) + "\n\n"
     prompt += "Recommended?"

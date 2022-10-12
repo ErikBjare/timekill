@@ -52,9 +52,8 @@ def get_motivational_quote(mood: int):
     """
     if mood < 5:
         return "You can do it!"
-    elif mood < 6:
+    if mood < 6:
         return "You're doing great!"
-    elif mood < 8:
+    if mood < 8:
         return "You're doing awesome!"
-    else:
-        return "You're doing amazing!"
+    return "You're doing amazing!"

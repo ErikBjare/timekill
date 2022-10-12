@@ -1,4 +1,2 @@
-from .schedule import Schedule
-from .context import Context
-from .models import Activity, Exercise
-from .suggest import suggest_activities
+from .models import Activity, Context, Exercise
+from .suggest import plan_day, print_plan, suggest_activities

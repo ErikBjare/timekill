@@ -22,150 +22,87 @@ Once-a-week things:
 Once-a-month things:
  - Review stats (on the first 3 days of the month)
 """
+from copy import copy
+from datetime import datetime, time, timedelta
+
+from ..emoji import emoji_check, emoji_fail
+from .activities import ACTIVITIES
+from .models import Activity, Context
 
 
-from datetime import time
-from typing import Literal, get_args
-from dataclasses import dataclass
-
-from .models import Activity, Exercise
-from .context import Context
-
-
-activities = [
-    Activity(
-        title="Write daily notes",
-        duration=5 * 60,
-        priority=5,
-    ),
-    Activity(
-        title="Do Brilliant",
-        duration=20 * 60,
-        condition=lambda c: c.activity in ("learn"),
-        priority=3,
-    ),
-    Activity(
-        title="Do Duolingo",
-        duration=5 * 60,
-        condition=lambda c: c.activity in ("relax", "learn"),
-        priority=1,
-    ),
-    # Work
-    Activity(
-        title="Check GitHub notifications",
-        duration=10 * 60,
-        condition=lambda c: c.activity == "work",
-        priority=1,
-    ),
-    Activity(
-        title="Review today's ActivityWatch stats",
-        duration=3 * 60,
-        # TODO: Don't suggest if already done today (check using AW data)
-        condition=lambda c: c.activity == "work" and 16 < c.time.hour < 22,
-        priority=2,
-    ),
-    # Exercise
-    Exercise(
-        title="Lift weights",
-        duration=45 * 60,
-        condition=lambda c: c.location == "home" and c.time.hour < 17,
-        priority=4,
-    ),
-    Exercise(
-        title="Go for a run",
-        description="choose your own pace",
-        duration=45 * 60,
-        # TODO: Don't suggest if already worked out today, or if cardio was done yesterday
-        condition=lambda c: c.location == "home" and c.time.hour < 18,
-        priority=4,
-    ),
-    Exercise(
-        title="Go for a walk",
-        duration=30 * 60,
-        # Only suggest if sun is out (overkill: and maybe that it's not raining?)
-        condition=lambda c: c.activity != "work" and c.time.hour < 20,
-    ),
-    # Social
-    Activity(
-        title="Check in with friends",  # TODO: Who? How can I figure out who to check in with? Split into multiple activities?
-        duration=20 * 60,
-        condition=lambda c: c.activity not in ("work", "learn") and c.time.hour < 20,
-        priority=1,
-    ),
-    Activity(
-        title="Call parents/grandparents",
-        duration=30 * 60,
-        # TODO: Don't suggest if done recently
-        condition=lambda c: c.activity not in ("work", "learn") and c.time.hour < 20,
-        priority=1,
-    ),
-    # Recurring reviews
-    Activity(
-        title="Monthly review",
-        description="Review ActivityWatch, Whoop, quantifiedme stats",
-        duration=10 * 60,
-        condition=lambda c: c.date.day <= 3,
-        priority=4,
-    ),
-    Activity(
-        title="Weekly review",
-        description="Review ActivityWatch, Whoop, quantifiedme stats",
-        duration=10 * 60,
-        condition=lambda c: c.date.weekday() in (0, 5, 6),
-        priority=4,
-    ),
-    # Leisure
-    Activity(
-        # TODO: Read what? (maybe based on what I've been reading lately)
-        title="Read",
-        duration=30 * 60,
-        priority=4,
-        condition=lambda c: c.activity in ("relax", "learn", "leisure"),
-    ),
-    Activity(
-        title="Watch a movie",
-        duration=90 * 60,
-        condition=lambda c: c.activity in ("relax", "leisure") and 18 < c.time.hour,
-    ),
-    Activity(
-        title="Go to the sauna",
-        duration=60 * 60,
-        condition=lambda c: c.location == "home"
-        and c.activity in ("relax")
-        and 16 < c.time.hour < 20,
-    ),
-    # Behavioral queues
-    Activity(
-        title="Brush teeth",
-        duration=5 * 60,
-        condition=lambda c: c.time.hour < 10 or 21 < c.time.hour,
-    ),
-    Activity(
-        title="Eat dinner",
-        duration=30 * 60,
-        condition=lambda c: 17 < c.time.hour < 21,
-    ),
-    Activity(
-        title="Go to bed",
-        duration=8 * 60 * 60,
-        condition=lambda c: c.time.hour > 22,
-    ),
-]
-activities.sort(key=lambda a: a.priority, reverse=True)
-
-
-def suggest_activities(context: Context) -> list[Activity]:
+def suggest_activities(context: Context, skip: list[Activity] = None) -> list[Activity]:
     """
     Suggest an activity based on the context.
 
-    Use some form of priority-ranking.
+    Rank by priority.
     """
     # TODO: Try and plan a hypothetical day, and suggest activities based on that
 
-    print(
-        " - "
-        + "\n - ".join([repr((a.title, a.condition(context))) for a in activities])
+    debug = False
+    if debug:
+        print(context)
+        print(
+            "\n".join(
+                [
+                    f" - {emoji_check if a.condition(context) else emoji_fail} {a.title}"
+                    for a in ACTIVITIES
+                ]
+            )
+        )
+
+    # Filter by condition
+    # Skip already performed activities
+    candidates = list(
+        filter(
+            lambda a: a.condition(context)
+            and a not in context.history
+            and (skip is None or a not in skip),
+            ACTIVITIES,
+        )
     )
-    candidates = list(filter(lambda a: a.condition(context), activities))
     candidates.sort(key=lambda a: a.priority, reverse=True)
     return candidates
+
+
+def plan_day(
+    context: Context, stop: time = time(23, 59)
+) -> list[tuple[time, Activity]]:
+    """
+    Plan a day based on the context.
+    """
+    # Take a copy to avoid mutating the original
+    context = copy(context)
+
+    plan = []
+    while context.time < stop:
+        activities = suggest_activities(context)
+        for activity in activities:
+            plan.append((context.time, activity))
+            # TODO: Activities should prob have a fallback if duration not set
+            context.timestamp += timedelta(seconds=activity.duration or 0)
+            context.history.append(activity)
+            break
+        else:
+            # No suitable activities found, step forward in time
+            context.timestamp += timedelta(minutes=1)
+
+    return plan
+
+
+def print_plan(context: Context, plan: list[tuple[time, Activity]]):
+    """Print a plan to the console."""
+    # Take a copy to avoid mutating the original
+    context = copy(context)
+
+    for t, activity in plan:
+        context.timestamp = datetime.combine(context.timestamp, t)
+        print(
+            f"{t.hour}:{t.minute:2} | {activity.title}"
+            + (
+                f" ({timedelta(seconds=activity.duration)})"
+                if activity.duration
+                else ""
+            )
+        )
+        if activity.description:
+            print(f"           - {activity.description}")

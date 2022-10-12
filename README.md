@@ -3,33 +3,46 @@ timekill
 
 A better way to kill time.
 
-**Note:** This project is a work-in-progress.
+An app that suggests healthy ways for you to (not) waste your time.
+
+> **Note**
+> This project is a work-in-progress.
 
 Features:
 
- - An activity-suggester/day-planner
+ - A day-planner that suggests activities for you to do
+   - Taking into account context like time, activity type (work, leisure, etc.), and location. 
    - When configured with activities and the conditions for recommending them, can help you sort out what to do with your days.
+
  - A recommender system for content *that you control*.
-   - Includes WIP content classification/recommendation based on GPT-3.
+   - Gets content from reddit (later Twitter, Hacker News, etc.)
+   - Includes WIP/experimental content classification/recommendation based on GPT-3.
 
-Content sources for recommender system:
+## Usage
 
- - Reddit
-   - TODO: by subreddit
-   - TODO: by search
- - TODO: Twitter
- - TODO: Hacker News
- - TODO: Custom entries. Like suggestions to work out, take a walk, etc.
+```
+$ timekill --help
+Usage: timekill [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  list     List content with recommendations.
+  plan     Plan a day of activity.
+  start    Entrypoint for the timekill server
+  suggest  Suggest activities to do.
+```
 
 ---
 
 **Note:** the text below was written a long time ago, and does not represent the current state of the project.
 
-An app for your phone that suggests (gets you addicted to) healthy ways for you to (not) waste your time.
+## Why?
 
-Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more time than we should on social media, YouTube, Netflix, and mobile games. What if we could wire our brains to compulsively open an app that suggested [healthy alternatives](#healthy-timekill) instead?
+Most of us are guilty of using our phones too much, which wouldn't be a problem if most of the use was actually healthy. Instead we spend far more time than we should on social media, YouTube, Netflix, and games. What if we could wire our brains to compulsively open an app that suggested [healthy alternatives](#healthy-timekill) instead?
 
-What I suggest is a (almost) infinite-scrolling feed that serves cards with *healthy* and *productive* content. The infinite-scrolling feed is a powerful thing that feeds on our brains' desire for novelty, can we tame it?
+What I suggest is a feed that serves cards with *healthy* and *productive* content. Content feeds are powerful tools that capture our attention by exploiting our brains' desire for novelty. The question is: can we tame it?
 
 
 ## Healthy timekill
@@ -59,23 +72,36 @@ The important thing for things to make a list like this is that it's something t
 
 ### Pre-MVP
 
- - Set up a ProductHunt ship page (to build a mailing list of people who are interested)
-   - Link from personal, ActivityWatch, and Thankful accounts on social media
-   - Share in local college/programming/startup communities (Code@LTH, D-sektionen community, Lund Startups, Malmö Startups)
+ - Build a CLI-version of the app (for quick iterations)
 
 
 ### MVP
 
 How do we build an MVP that users like as quickly as possible?
 
- - Focus on getting the user to think about good ways to kill time, then let them create cards to show in the feed themselves.
+ - [ ] Needs a way to configure your own activities
+   - How do we get the user to think about good ways to kill time? Offer suggestions/good defaults?
+ - [ ] Make it usable from phone
+ - [ ] (optional) Integrate with ActivityWatch for better context-awareness
 
-Ideas:
+### Marketing
 
- - Integrate with ActivityWatch for synergistic effects on development (might be past the MVP stage, but there should definitely be a plan for it)
+ - Set up a ProductHunt ship page (to build a mailing list of people who are interested)
+   - Link from personal, ActivityWatch, and Thankful accounts on social media
+   - Share in local college/programming/startup communities (Code@LTH, D-sektionen community, Lund Startups, Malmö Startups)
 
 
 ## Name
 
 Current name was just how the one I happened to impulsively use when thinking about it. It might need improvement.
 
+## Similar software
+
+I've discovered similar software that does part of what timekill does.
+
+Automatic scheduling:
+ - Google Calendar's "Goals" feature
+ - usemotion.com
+
+Self-hosted/open-source/personal recommender system:
+ - None?

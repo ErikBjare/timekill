@@ -1,41 +1,41 @@
 """
 Load content from reddit
 """
-
-import os
 import json
+import os
 from pathlib import Path
 
-import requests
-import praw
 import joblib
+import praw
+import requests
 
 from ..models import Content
 
 memory = joblib.Memory("cache", verbose=0)
 
-feeds_dir = Path(__file__).parent.parent.parent / "feeds"
+feeds_dir = Path(__file__).parent.parent.parent / "data" / "feeds"
 
 
 @memory.cache
 def load_reddit(subreddit: str, limit=100, t="week"):
-    feedfile = feeds_dir / "reddit" / subreddit / f"top.json"
+    feedfile = feeds_dir / "reddit" / subreddit / "top.json"
 
     if os.environ.get("REDDIT_CLIENT_ID"):
         print("Loading from praw")
         return load_reddit_praw(subreddit, limit, t)
-    elif feedfile.exists():
+    if feedfile.exists():
         print("Loading from cache")
         return _parse_json(json.loads(feedfile.read_text()))
-    else:
-        print("Loading from json-request")
-        return load_reddit_json(subreddit, limit, t)
+
+    # fallback, hits ratelimits often
+    print("Loading from json-request")
+    return load_reddit_json(subreddit, limit, t)
 
 
 def load_reddit_json(subreddit, limit, t) -> list[Content]:
     url = f"https://www.reddit.com/r/{subreddit}/top.json?limit={limit}&t={t}"
     print(url)
-    r = requests.get(url)
+    r = requests.get(url, timeout=10)
     data = r.json()
     if "error" in data:
         raise Exception(data)
@@ -74,7 +74,7 @@ def load_reddit_praw(subreddit, limit, t) -> list[Content]:
         user_agent="python3:timekill:0.1 (by /u/ErikBjare)",
     )
     content = []
-    for submission in reddit.subreddit("subreddit").hot(limit=10):
+    for submission in reddit.subreddit(subreddit).top(limit=limit, time_filter=t):
         content.append(
             Content(
                 title=submission.title,

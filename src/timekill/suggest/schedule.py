@@ -1,5 +1,5 @@
-from datetime import datetime, timedelta
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 
 
 @dataclass
@@ -15,18 +15,17 @@ class Schedule:
 
     def should(self) -> bool:
         """Check if the activity should be completed/recommended."""
-
         if self.last is None:
             return True
 
         if self.unit == "day":
             return self.last + timedelta(days=self.frequency) < datetime.now()
-        elif self.unit == "week":
+        if self.unit == "week":
             return self.last + timedelta(weeks=self.frequency) < datetime.now()
-        elif self.unit == "month":
+        if self.unit == "month":
             return self.last + timedelta(weeks=self.frequency * 4) < datetime.now()
-        else:
-            raise ValueError(f"Unknown unit {self.unit}")
+
+        raise ValueError(f"Unknown unit {self.unit}")
 
     def done(self) -> None:
         """Mark the activity as completed/recommended."""

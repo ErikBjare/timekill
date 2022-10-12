@@ -28,19 +28,87 @@ desktop-notifier = "^3.4.0"
 
 
 [tool.poetry.group.dev.dependencies]
+# testing
 pytest = "^7.1.3"
 pytest-cov = "^4.0.0"
-pyupgrade = "^3.1.0"
-black = "^22.10.0"
-mypy = "*"
-types-requests = "^2.28.11.2"
+
+# packaging
 pyinstaller = "^5.5"
+
+# types
+types-requests = "^2.28.11.2"
+
+# checking, formatting, linting, fixing
+mypy = "*"
+black = "^22.10.0"
+pylint = "^2.15.4"
+flake8 = "^5.0.4"
+flake8-pyproject = "^1.1.0.post0"
+autoflake = "^1.7.4"
+bandit = "^1.7.4"
+reorder-python-imports = "^3.8.4"
+isort = "^5.10.1"
+autoimport = "^1.2.3"
+pyupgrade = "^3.1.0"
 
 [tool.pytest.ini_options]
 markers = [
     "reddit: uses the reddit API",
     "openai: uses the OpenAI API",
 ]
+
+[tool.pylint.messages_control]
+#max-line-length = 120
+disable = [
+  "line-too-long",
+  "too-few-public-methods",
+  "fixme",
+  "missing-docstring",
+  "invalid-name",
+  "logging-not-lazy",
+  "logging-fstring-interpolation",
+  "no-name-in-module",
+  "disallowed-name",
+#  "unused-argument",
+#  "no-value-for-parameter",
+#  "no-member",
+#  "no-else-return",
+#  "bad-whitespace",
+#  "bad-continuation",
+#  "protected-access",
+]
+
+
+[tool.bandit]
+exclude_dirs = ["src/timekill/test"]
+skips = ["B101"]
+
+[tool.black]
+target-version = ['py310']
+include = '\.pyi?$'
+
+[tool.isort]
+py_version = 310
+profile = "black"
+force_grid_wrap = 4
+src_paths = ["src/timekill"]
+
+[tool.flake8]
+ignore = ['E501', 'W503']
+per-file-ignores = [
+    '__init__.py:F401',
+]
+max-line-length = 88
+exclude = [
+    '.git',
+    '.venv',
+    'build',
+    'dist',
+    'venv',
+    'cache',
+]
+count = true
+statistics = true
 
 [build-system]
 requires = ["poetry-core"]

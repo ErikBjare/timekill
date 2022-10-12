@@ -1,10 +1,6 @@
 from pydantic import BaseModel
-from datetime import timedelta, datetime
-from typing import Callable, Literal
 
-
-emoji_check = "✅"
-emoji_fail = "❌"
+from .emoji import emoji_check, emoji_fail
 
 
 class Content(BaseModel):
