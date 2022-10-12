@@ -56,6 +56,7 @@ markers = [
     "reddit: uses the reddit API",
     "openai: uses the OpenAI API",
 ]
+addopts = "--cov=timekill --cov-report html --cov-report xml --cov-report term-missing"
 
 [tool.pylint.messages_control]
 #max-line-length = 120

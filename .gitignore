@@ -1,7 +1,13 @@
 .*cache
 secret.env
 cache
+
+# platform-specific trash
 .DS_Store
+
+# coverage
+.coverage
+coverage.xml
 
 # Python stuff
 __pycache__
