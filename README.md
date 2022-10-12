@@ -3,11 +3,11 @@ timekill
 
 [![Build](https://github.com/ErikBjare/timekill/actions/workflows/build.yml/badge.svg)](https://github.com/ErikBjare/timekill/actions/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Typechecking: Mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+[![Typechecking: mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 
 A better way to kill time.
 
-An app that suggests healthy ways for you to (not) waste your time.
+An app that suggests healthy ways for you to spend your time, in a context-aware way.
 
 > **Note**
 > This project is a work-in-progress.
@@ -76,12 +76,12 @@ The important thing for things to make a list like this is that it's something t
 
 ### Pre-MVP
 
- - Build a CLI-version of the app (for quick iterations)
-
+ - [x] Build a CLI-version of the app (for quick iteration on new features)
+ - [ ] Build a very basic web frontend? (for quick GUI iteration)
 
 ### MVP
 
-How do we build an MVP that users like as quickly as possible?
+How do we build an MVP that users like and find helpful as quickly as possible?
 
  - [ ] Needs a way to configure your own activities
    - How do we get the user to think about good ways to kill time? Offer suggestions/good defaults?
@@ -105,7 +105,8 @@ I've discovered similar software that does part of what timekill does.
 
 Automatic scheduling:
  - Google Calendar's "Goals" feature
- - usemotion.com
+ - https://usemotion.com/
+ - https://super-productivity.com/ (maybe? Haven't used)
 
 Self-hosted/open-source/personal recommender system:
  - None?
