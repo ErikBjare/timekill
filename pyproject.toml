@@ -4,6 +4,20 @@ version = "0.1.0"
 description = "A better way to kill time"
 authors = ["Erik Bjäreholt <erik@bjareho.lt>"]
 readme = "README.md"
+homepage = "https://github.com/ErikBjare/timekill"
+repository = "https://github.com/ErikBjare/timekill"
+documentation = "https://github.com/ErikBjare/timekill"
+keywords = []
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Education",
+    "Topic :: Office/Business :: News/Diary",
+    "Topic :: Office/Business :: Scheduling",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Operating System :: Microsoft :: Windows",
+]
 packages = [
     { include = "timekill", from = "src" },
 ]
@@ -32,9 +46,6 @@ desktop-notifier = "^3.4.0"
 pytest = "^7.1.3"
 pytest-cov = "^4.0.0"
 
-# packaging
-pyinstaller = "^5.5"
-
 # types
 types-requests = "^2.28.11.2"
 
@@ -50,6 +61,13 @@ reorder-python-imports = "^3.8.4"
 isort = "^5.10.1"
 autoimport = "^1.2.3"
 pyupgrade = "^3.1.0"
+
+[tool.poetry.group.packaging.dependencies]
+pyinstaller = "^5.5"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^5.2.3"
+sphinx-click = "^4.3.0"
 
 [tool.pytest.ini_options]
 markers = [

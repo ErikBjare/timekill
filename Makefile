@@ -24,6 +24,11 @@ lint-fix:
 	poetry run pyupgrade --py310-plus $(SOURCES)
 	poetry run black $(SRCDIR)
 
+.PHONY: docs/_build
+docs: docs/_build
+docs/_build:
+	make -C docs html
+
 SUBREDDITS := python quantifiedself coolgithubprojects rust programming linux
 
 data: data/feeds

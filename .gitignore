@@ -21,3 +21,4 @@ feeds
 build
 dist
 media/icon.icns
+docs/_build
