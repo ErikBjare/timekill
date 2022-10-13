@@ -14,7 +14,7 @@ To install from source, run:
     git clone https://github.com/ErikBjare/timekill
     cd timekill
 
-    pip install
+    pip install -e .
     # or...
     poetry install
 

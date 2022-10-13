@@ -1,18 +1,20 @@
-.. timekill documentation master file, created by
-   sphinx-quickstart on Thu Oct 13 11:44:31 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+timekill documentation
+======================
 
-Welcome to timekill's documentation!
-====================================
+"A better way to kill time"
+
+timekill is an application that helps you get the most out of your day by suggesting the best ways to spend your time.
+
+It is in an early development stage, so expect bugs and missing features. Feedback/early testers always welcome.
+
 
 .. toctree::
    :maxdepth: 4
    :caption: Contents:
 
+   about
    installation
    usage
-   about
 
 
 Indices and tables
