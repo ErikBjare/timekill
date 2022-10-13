@@ -21,6 +21,11 @@ from .suggest import (
 
 @click.group()
 def main():
+    """
+    A better way to kill time, a tool for planning your day and finding things to do.
+
+    NOTE: still in early development
+    """
     pass
 
 
@@ -107,6 +112,7 @@ def plan(until: time):
     context.timestamp = start
 
     activities = plan_day(context, stop=until or time(23, 59))
+    print("")
     print_plan(context, activities)
 
 

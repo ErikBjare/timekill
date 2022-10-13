@@ -20,12 +20,9 @@ ActivityType = Literal[
     "leisure",
     "exercise",
     "relax",
-    "socialize",
+    "social",
     "learn",
-    "reading",
-    "writing",
-    "learning",
-    "meditation",
+    "meditate",
     "other",
 ]
 LocationType = Literal["home", "work", "outside"]
@@ -95,7 +92,7 @@ class Context:
         activity = click.prompt(
             "What are you doing?",
             type=click.Choice(valid_activities),
-            default="work",
+            default=valid_activities[0],
             show_choices=False,
             show_default=True,
         )
@@ -104,7 +101,7 @@ class Context:
         location = click.prompt(
             "Where are you?",
             type=click.Choice(valid_locations),
-            default="home",
+            default=valid_locations[0],
             show_choices=False,
             show_default=True,
         )
