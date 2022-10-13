@@ -5,6 +5,8 @@ timekill
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Typechecking: mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
 
+**[Docs](https://erik.bjareholt.com/timekill/) | [Sponsor me](https://github.com/sponsors/ErikBjare)**
+
 A better way to kill time.
 
 An app that suggests healthy ways for you to spend your time, in a context-aware way.
