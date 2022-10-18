@@ -15,6 +15,12 @@ def condition_focus(c: Context) -> bool:
     return c.activity in ("any", "work", "learn")
 
 
+def condition_meditation(c: Context) -> bool:
+    return c.activity in ("any", "meditation") and not [
+        a for a in c.history if a.type == "meditate"
+    ]
+
+
 def condition_social(c: Context) -> bool:
     return (
         (c.activity == "any" or not condition_focus(c))
@@ -66,18 +72,8 @@ ACTIVITIES = [
     Activity(
         title="Write daily notes",
         duration=5 * 60,
-        condition=lambda c: 4 < c.time.hour < 21,
+        condition=lambda c: 4 < c.time.hour < 21 and c.activity != "leisure",
         priority=5,
-    ),
-    Activity(
-        title="Do Brilliant",
-        duration=20 * 60,
-        condition=lambda c: condition_learn(c),
-    ),
-    Activity(
-        title="Do Duolingo",
-        duration=5 * 60,
-        condition=lambda c: condition_learn(c) or c.activity == "relax",
     ),
     # Work
     Activity(
@@ -92,6 +88,22 @@ ACTIVITIES = [
         # TODO: Don't suggest if already done today (check using AW data)
         condition=lambda c: condition_work(c) and 16 < c.time.hour < 22,
         priority=3,
+    ),
+    # Learn
+    Activity(
+        title="Do Brilliant",
+        duration=20 * 60,
+        condition=lambda c: condition_learn(c),
+    ),
+    Activity(
+        title="Do Duolingo",
+        duration=5 * 60,
+        condition=lambda c: condition_learn(c) or c.activity == "relax",
+    ),
+    Activity(
+        title="Do Anki",
+        duration=5 * 60,
+        condition=lambda c: condition_learn(c) or c.activity == "relax",
     ),
     # Exercise
     Exercise(
@@ -149,7 +161,7 @@ ACTIVITIES = [
         # TODO: Read what? (maybe based on what I've been reading lately)
         title="Read",
         duration=30 * 60,
-        priority=4,
+        priority=3,
         condition=lambda c: c.activity in ("any", "relax", "learn", "leisure"),
     ),
     Activity(
@@ -166,6 +178,20 @@ ACTIVITIES = [
         and 16 <= c.time.hour < 20,
     ),
     # Behavioral queues
+    Activity(
+        title="Meditate",
+        duration=10 * 60,
+        type="meditate",
+        condition=condition_meditation,
+    ),
+    Activity(
+        title="Practice Mendi",
+        duration=5 * 60,
+        type="meditate",
+        condition=condition_meditation,
+        # NOTE: This will always suggest Mendi, and never meditate
+        priority=1,
+    ),
     Activity(
         title="Brush teeth",
         duration=5 * 60,
