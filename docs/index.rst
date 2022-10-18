@@ -15,6 +15,7 @@ It is in an early development stage, so expect bugs and missing features. Feedba
    about
    installation
    usage
+   api
 
 
 Indices and tables

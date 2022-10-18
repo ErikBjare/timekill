@@ -27,7 +27,7 @@ lint-fix:
 .PHONY: docs/_build
 docs: docs/_build
 docs/_build:
-	make -C docs html
+	poetry run make -C docs html
 
 SUBREDDITS := python quantifiedself coolgithubprojects rust programming linux
 
@@ -69,4 +69,5 @@ dist/TimeKill.app: media/icon.icns
 		src/timekill/__main__.py
 
 clean:
-	rm -rf data/feeds
+	#rm -rf data/feeds
+	rm -rf docs/_build
